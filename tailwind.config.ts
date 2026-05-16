@@ -35,7 +35,7 @@ const config: Config = {
         luxury: "0.06em",
       },
       lineHeight: {
-        display: "0.92",
+        display: "0.95",
         editorial: "1.05",
       },
       animation: {

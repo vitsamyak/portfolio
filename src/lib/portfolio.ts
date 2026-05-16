@@ -1,6 +1,6 @@
 export const profile = {
   name: "Samyak Vikas Gedam",
-  nameLines: ["Samyak", "Vikas Gedam"],
+  nameLines: ["Samyak", "Vikas", "Gedam"],
   tagline: "B.E. Computer Engineering · Pune University · Batch 2029",
   eyebrow: "Portfolio",
   email: "samyakgedam69@gmail.com",

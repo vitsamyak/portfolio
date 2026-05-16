@@ -16,7 +16,7 @@ export default function MagicBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 h-screen w-full overflow-hidden bg-[#09090b]">
+    <div className="fixed inset-0 z-0 h-[100dvh] w-full overflow-hidden bg-[#09090b]">
       {/* Dot pattern background */}
       <div 
         className="absolute inset-0 z-0 h-full w-full opacity-40 mix-blend-screen"

@@ -41,7 +41,7 @@ function HeroEditorial({
   const parallaxStrength = 10;
 
   return (
-    <div className="grid h-full w-full max-w-[1680px] grid-cols-12 items-center px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+    <div className="grid w-full max-w-[1680px] grid-cols-12 items-center px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20">
       <motion.div
         className="col-span-12 flex flex-col sm:col-span-8 sm:max-w-[22rem] md:col-span-7 md:max-w-[26rem] lg:col-span-5 lg:max-w-[30rem] xl:col-span-4 xl:max-w-[32rem]"
         animate={{
@@ -215,7 +215,7 @@ function OverlaySection({
       style={{ opacity, y: scrollY }}
       className={`absolute inset-0 flex w-full ${
         isHero
-          ? "items-center pt-[max(4.5rem,10vh)] sm:pt-0"
+          ? "items-center px-5 sm:px-0"
           : "flex-col justify-center px-5 sm:px-8 md:px-12"
       }`}
     >
