@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Samyak Vikas Gedam — B.E. Computer Engineering student at VIT Pune. Projects in web development, IoT, programming and creative software experiences.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || 
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"))
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` :
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"))
   ),
   openGraph: {
     title: "Samyak Vikas Gedam — Computer Engineering Student",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
       {
         url: "/profile.jpg", // The user should place their profile image here
         width: 1200,
-        height: 630,
+        height: 670,
         alt: "Samyak Vikas Gedam — Portfolio Preview",
       },
     ],
