@@ -279,7 +279,7 @@ export default function Overlay({ scrollTargetRef }: OverlayProps) {
 
   return (
     <motion.div
-      className="pointer-events-none fixed inset-0 z-10 h-screen w-full"
+      className="pointer-events-none absolute inset-0 z-10 h-full w-full"
       aria-label="Scroll narrative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

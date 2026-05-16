@@ -17,7 +17,7 @@ export default function Home() {
         <ScrollySection />
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-20">
         <div className="pointer-events-none absolute left-0 top-0 -z-10 h-64 w-full bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
 
         <Header />
