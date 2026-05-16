@@ -1,7 +1,7 @@
 export const profile = {
   name: "Samyak Vikas Gedam",
   nameLines: ["Samyak", "Vikas", "Gedam"],
-  tagline: "B.E. Computer Engineering · Pune University · Batch 2029",
+  tagline: "B.Tech. Computer Engineering · Pune University · Batch 2029",
   eyebrow: "Portfolio",
   email: "samyakgedam69@gmail.com",
   phone: "+91 9420296105",
@@ -18,7 +18,7 @@ export const objective =
 
 export const education = [
   {
-    degree: "B.E. Computer Engineering",
+    degree: "B.Tech. Computer Engineering",
     school: "Vishwakarma Institute of Technology, Pune",
     board: "Savitribai Phule Pune University",
     period: "2025 – 2029",
@@ -32,7 +32,7 @@ export const education = [
   },
   {
     degree: "SSC — 10th",
-    school: "Maharashtra State Board",
+    school: "Central Board Of Secondary Education (CBSE)",
     board: null,
     period: "2023",
     note: "90%",
@@ -85,26 +85,28 @@ export const projects = [
     title: "ASEP-2: Smart Zebra Crossing System",
     category: "Implementation · IoT",
     description:
-      "Working prototype using ultrasonic sensors to detect pedestrians, automate traffic signal control, and integrate Firebase for real-time monitoring and data handling.",
+      "Developed a smart zebra crossing system utilizing IoT technologies to enhance pedestrian safety and automate traffic flow.",
     tags: ["Arduino", "Ultrasonic Sensors", "Firebase", "IoT"],
     year: "2025",
     highlights: [
-      "Automated traffic signals based on real-time pedestrian detection",
-      "Firebase integration for monitoring and data handling",
-      "Applied IoT concepts to a real-world safety problem",
+      "Developed a smart zebra crossing system to enhance pedestrian safety",
+      "Used sensors to detect pedestrians and automatically control traffic signals",
+      "Integrated Firebase for real-time monitoring and data handling",
+      "Applied IoT concepts for real-world problem solving",
     ],
   },
   {
-    title: "ASEP-1: Smart Zebra Crossing",
-    category: "Planning & Design",
+    title: "ASEP-1: CanteenEase (Canteen Management)",
+    category: "System Design · Management",
     description:
-      "Studied pedestrian safety at crossings and planned a smart solution using sensors and automation, including workflow, structure, and team coordination.",
-    tags: ["Research", "System Design", "Teamwork"],
+      "Designed a comprehensive college canteen management system focused on improving operational efficiency and digital order management.",
+    tags: ["System Design", "UI/UX Planning", "Project Management"],
     year: "2025",
     highlights: [
-      "Problem analysis for pedestrian safety at crossings",
-      "Basic design, workflow, and project structure",
-      "Developed teamwork and project planning skills",
+      "Designed a solution to improve efficiency in college canteens",
+      "Focused on reducing waiting time and managing orders digitally",
+      "Created basic workflow and user interface idea for ordering system",
+      "Learned project planning, problem analysis, and teamwork",
     ],
   },
 ];
