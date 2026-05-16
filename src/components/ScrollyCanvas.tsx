@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { useDevice } from "@/hooks/useDevice";
 import { drawCover } from "@/lib/canvas";
 import { FRAME_COUNT } from "@/lib/sequence";
 
@@ -15,6 +16,7 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
   const frameIndexRef = useRef(0);
   const [ready, setReady] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
+  const { isMobile, dpr } = useDevice();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,7 +32,6 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
     const img = frames[index];
     if (!ctx || !img?.complete) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const { width, height } = canvas.getBoundingClientRect();
 
     if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
@@ -39,10 +40,10 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    ctx.fillStyle = "#121212";
+    ctx.fillStyle = "#0a0a0a";
     ctx.fillRect(0, 0, width, height);
     drawCover(ctx, img, width, height);
-  }, []);
+  }, [dpr]);
 
   useEffect(() => {
     let cancelled = false;

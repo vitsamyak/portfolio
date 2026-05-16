@@ -4,6 +4,8 @@ import { useEffect, useState, type RefObject } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { scrollNarrative } from "@/lib/portfolio";
 
+import { useDevice } from "@/hooks/useDevice";
+
 type SectionAlign = "center" | "left" | "right";
 type SectionLayout = "hero-editorial" | "default";
 
@@ -38,7 +40,8 @@ function HeroEditorial({
   mouseY: number;
 }) {
   const lines = section.titleLines ?? [section.title];
-  const parallaxStrength = 10;
+  const { isMobile } = useDevice();
+  const parallaxStrength = isMobile ? 0 : 10;
 
   return (
     <div className="grid w-full max-w-[1680px] grid-cols-12 items-center px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20">
@@ -114,19 +117,21 @@ function NarrativeBlock({
 }) {
   const lines = section.titleLines ?? section.title.split(" ");
   const useLineBreaks = Boolean(section.titleLines);
+  const { isMobile } = useDevice();
   const alignClass =
     section.align === "right"
       ? "col-start-1 col-span-12 sm:col-start-5 sm:col-span-8 lg:col-start-7 lg:col-span-6 items-end text-right ml-auto"
       : "col-start-1 col-span-12 sm:col-span-8 lg:col-span-6 items-start text-left";
 
-  const parallaxX = mouseX * (section.parallax > 0 ? 12 : -12);
+  const parallaxStrength = isMobile ? 0 : (section.parallax > 0 ? 12 : -12);
+  const parallaxX = mouseX * parallaxStrength;
 
   return (
     <motion.div
       className={`col-span-12 flex max-w-xl flex-col ${alignClass}`}
       animate={{
         x: parallaxX,
-        y: mouseY * (section.parallax > 0 ? 10 : -10),
+        y: mouseY * (isMobile ? 0 : (section.parallax > 0 ? 10 : -10)),
       }}
       transition={{ type: "spring", stiffness: 100, damping: 30 }}
     >
@@ -196,19 +201,25 @@ function OverlaySection({
   mouseX: number;
   mouseY: number;
 }) {
+  const { isMobile, isTouch } = useDevice();
   const opacity = useTransform(
     scrollYProgress,
     [section.fadeIn, section.fadeIn + 0.04, section.fadeOut - 0.04, section.fadeOut],
     [section.fadeIn === 0 ? 1 : 0, 1, 1, 0]
   );
 
+  const parallaxDistance = isMobile ? 12 : 24;
   const scrollY = useTransform(
     scrollYProgress,
     [section.fadeIn, section.fadeOut],
-    [24 * section.parallax, -24 * section.parallax]
+    [parallaxDistance * section.parallax, -parallaxDistance * section.parallax]
   );
 
   const isHero = section.layout === "hero-editorial";
+  
+  // Disable mouse motion values on touch devices for performance
+  const activeMouseX = isTouch ? 0 : mouseX;
+  const activeMouseY = isTouch ? 0 : mouseY;
 
   return (
     <motion.div
@@ -220,14 +231,14 @@ function OverlaySection({
       }`}
     >
       {isHero ? (
-        <HeroEditorial section={section} mouseX={mouseX} mouseY={mouseY} />
+        <HeroEditorial section={section} mouseX={activeMouseX} mouseY={activeMouseY} />
       ) : (
         <motion.div
           className={`mx-auto grid w-full max-w-7xl grid-cols-12 ${
             section.align === "right" ? "justify-items-end" : ""
           }`}
         >
-          <NarrativeBlock section={section} mouseX={mouseX} mouseY={mouseY} />
+          <NarrativeBlock section={section} mouseX={activeMouseX} mouseY={activeMouseY} />
         </motion.div>
       )}
     </motion.div>

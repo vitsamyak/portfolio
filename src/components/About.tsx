@@ -10,8 +10,11 @@ import {
   softSkills,
 } from "@/lib/portfolio";
 
+import { useDevice } from "@/hooks/useDevice";
+
 export default function About() {
   const allSkills = skillGroups.flatMap((g) => g.items);
+  const { isMobile, isLowPower } = useDevice();
 
   return (
     <section
@@ -37,11 +40,13 @@ export default function About() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: isMobile ? 12 : 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="mx-auto mb-16 grid max-w-7xl gap-6 rounded-2xl border border-white/5 bg-white/[0.02] p-6 backdrop-blur-xl grid-cols-1 sm:grid-cols-2 md:mb-20 md:grid-cols-3 md:gap-8 md:p-8"
+        className={`mx-auto mb-16 grid max-w-7xl gap-6 rounded-2xl border border-white/5 bg-white/[0.02] p-6 grid-cols-1 sm:grid-cols-2 md:mb-20 md:grid-cols-3 md:gap-8 md:p-8 ${
+          isLowPower ? "" : isMobile ? "backdrop-blur-md" : "backdrop-blur-xl"
+        }`}
       >
         <motion.div>
           <p className="text-xs uppercase tracking-widest text-white/35">Location</p>
@@ -59,7 +64,7 @@ export default function About() {
 
       <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-2 lg:gap-24">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: isMobile ? 12 : 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15 }}
@@ -99,7 +104,7 @@ export default function About() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: isMobile ? 12 : 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.2 }}
@@ -112,8 +117,10 @@ export default function About() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.05 * index }}
-                className="cursor-default rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 backdrop-blur-md transition-colors hover:border-accent/30 hover:text-accent"
+                transition={{ duration: 0.4, delay: isMobile ? 0 : 0.05 * index }}
+                className={`cursor-default rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-accent/30 hover:text-accent ${
+                  isLowPower ? "" : isMobile ? "backdrop-blur-sm" : "backdrop-blur-md"
+                }`}
               >
                 {skill}
               </motion.span>
@@ -128,7 +135,7 @@ export default function About() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.05 * index }}
+                transition={{ duration: 0.4, delay: isMobile ? 0 : 0.05 * index }}
                 className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white/55"
               >
                 {skill}

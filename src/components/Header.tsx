@@ -5,10 +5,13 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { profile } from "@/lib/portfolio";
 
+import { useDevice } from "@/hooks/useDevice";
+
 export default function Header() {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { isMobile, isLowPower } = useDevice();
 
   useMotionValueEvent(scrollY, "change", (y) => {
     if (typeof window !== "undefined") {
@@ -41,7 +44,7 @@ export default function Header() {
       <div
         className={`relative mx-auto flex w-full items-center justify-between transition-all duration-500 ${
           scrolled
-            ? "h-14 w-full max-w-4xl rounded-full border border-white/10 bg-[#09090b] px-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_20px_-5px_rgba(167,139,250,0.15)] ring-1 ring-white/5"
+            ? `h-14 w-full max-w-4xl rounded-full border border-white/10 bg-[#09090b]/90 px-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_20px_-5px_rgba(167,139,250,0.15)] ring-1 ring-white/5 ${isLowPower ? "" : "backdrop-blur-xl"}`
             : "h-16 w-full max-w-7xl bg-transparent px-6 md:px-12"
         }`}
       >
@@ -103,20 +106,20 @@ export default function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: isLowPower ? 0 : -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0, y: isLowPower ? 0 : -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#09090b]/98 backdrop-blur-2xl"
+            className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#09090b]/98 ${isLowPower ? "" : "backdrop-blur-2xl"}`}
           >
             <nav className="flex flex-col items-center gap-10">
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: isLowPower ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.1 }}
+                  transition={{ delay: isLowPower ? 0 : 0.1 + i * 0.1 }}
                   onClick={() => setIsOpen(false)}
                   className="text-3xl font-light tracking-[0.1em] text-white/60 transition-colors hover:text-white"
                 >
@@ -124,9 +127,9 @@ export default function Header() {
                 </motion.a>
               ))}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: isLowPower ? 0 : 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: isLowPower ? 0 : 0.4 }}
               >
                 <Button
                   variant="primary"

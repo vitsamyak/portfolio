@@ -1,19 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useDevice } from "@/hooks/useDevice";
 
 export default function MagicBackground() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const { isMobile, isLowPower } = useDevice();
 
   return (
     <div className="fixed inset-0 z-0 h-[100dvh] w-full overflow-hidden bg-[#09090b]">
@@ -26,26 +17,26 @@ export default function MagicBackground() {
         }}
       />
       
-      {/* Animated radial glows - Simplified for mobile */}
+      {/* Animated radial glows - Simplified for mobile/low-power */}
       <motion.div
-        animate={isMobile ? { opacity: [0.2, 0.3, 0.2] } : {
+        animate={isLowPower ? { opacity: [0.15, 0.25, 0.15] } : (isMobile ? { opacity: [0.2, 0.3, 0.2] } : {
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
-        }}
+        })}
         transition={{
           duration: isMobile ? 4 : 8,
           repeat: Infinity,
           ease: "easeInOut",
         }}
         className={`pointer-events-none absolute -top-[10%] left-[10%] rounded-full bg-indigo-600/20 ${
-          isMobile ? "h-[300px] w-[300px] blur-[60px]" : "h-[500px] w-[500px] blur-[120px]"
+          isMobile ? "h-[250px] w-[250px] blur-[40px]" : "h-[500px] w-[500px] blur-[120px]"
         }`}
       />
       <motion.div
-        animate={isMobile ? { opacity: [0.1, 0.2, 0.1] } : {
+        animate={isLowPower ? { opacity: [0.1, 0.2, 0.1] } : (isMobile ? { opacity: [0.1, 0.2, 0.1] } : {
           scale: [1, 1.5, 1],
           opacity: [0.2, 0.4, 0.2],
-        }}
+        })}
         transition={{
           duration: isMobile ? 5 : 10,
           repeat: Infinity,
@@ -53,7 +44,7 @@ export default function MagicBackground() {
           delay: 2,
         }}
         className={`pointer-events-none absolute -bottom-[10%] right-[5%] rounded-full bg-violet-600/20 ${
-          isMobile ? "h-[400px] w-[400px] blur-[80px]" : "h-[600px] w-[600px] blur-[150px]"
+          isMobile ? "h-[300px] w-[300px] blur-[50px]" : "h-[600px] w-[600px] blur-[150px]"
         }`}
       />
       {!isMobile && (
