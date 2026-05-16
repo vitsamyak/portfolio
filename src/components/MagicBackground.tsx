@@ -17,34 +17,34 @@ export default function MagicBackground() {
         }}
       />
       
-      {/* Animated radial glows - Simplified for mobile/low-power */}
+      {/* Static radial glows for mobile/low-power */}
       <motion.div
-        animate={isLowPower ? { opacity: [0.15, 0.25, 0.15] } : (isMobile ? { opacity: [0.2, 0.3, 0.2] } : {
+        animate={isMobile ? false : {
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
-        })}
-        transition={{
-          duration: isMobile ? 4 : 8,
+        }}
+        transition={isMobile ? { duration: 0 } : {
+          duration: 8,
           repeat: Infinity,
           ease: "easeInOut",
         }}
         className={`pointer-events-none absolute -top-[10%] left-[10%] rounded-full bg-indigo-600/20 ${
-          isMobile ? "h-[250px] w-[250px] blur-[40px]" : "h-[500px] w-[500px] blur-[120px]"
+          isMobile ? "h-[250px] w-[250px] blur-[40px] opacity-20" : "h-[500px] w-[500px] blur-[120px]"
         }`}
       />
       <motion.div
-        animate={isLowPower ? { opacity: [0.1, 0.2, 0.1] } : (isMobile ? { opacity: [0.1, 0.2, 0.1] } : {
+        animate={isMobile ? false : {
           scale: [1, 1.5, 1],
           opacity: [0.2, 0.4, 0.2],
-        })}
-        transition={{
-          duration: isMobile ? 5 : 10,
+        }}
+        transition={isMobile ? { duration: 0 } : {
+          duration: 10,
           repeat: Infinity,
           ease: "easeInOut",
           delay: 2,
         }}
         className={`pointer-events-none absolute -bottom-[10%] right-[5%] rounded-full bg-violet-600/20 ${
-          isMobile ? "h-[300px] w-[300px] blur-[50px]" : "h-[600px] w-[600px] blur-[150px]"
+          isMobile ? "h-[300px] w-[300px] blur-[50px] opacity-10" : "h-[600px] w-[600px] blur-[150px]"
         }`}
       />
       {!isMobile && (

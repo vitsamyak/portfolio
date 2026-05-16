@@ -208,7 +208,7 @@ function OverlaySection({
     [section.fadeIn === 0 ? 1 : 0, 1, 1, 0]
   );
 
-  const parallaxDistance = isMobile ? 12 : 24;
+  const parallaxDistance = isMobile ? 0 : 24;
   const scrollY = useTransform(
     scrollYProgress,
     [section.fadeIn, section.fadeOut],

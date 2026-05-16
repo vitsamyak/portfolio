@@ -44,8 +44,8 @@ export default function About() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className={`mx-auto mb-16 grid max-w-7xl gap-6 rounded-2xl border border-white/5 bg-white/[0.02] p-6 grid-cols-1 sm:grid-cols-2 md:mb-20 md:grid-cols-3 md:gap-8 md:p-8 ${
-          isLowPower ? "" : isMobile ? "backdrop-blur-md" : "backdrop-blur-xl"
+        className={`mx-auto mb-16 grid max-w-7xl gap-6 rounded-2xl border border-white/5 p-6 grid-cols-1 sm:grid-cols-2 md:mb-20 md:grid-cols-3 md:gap-8 md:p-8 ${
+          isMobile ? "bg-white/[0.04]" : "bg-white/[0.02] backdrop-blur-xl"
         }`}
       >
         <motion.div>
@@ -118,8 +118,8 @@ export default function About() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: isMobile ? 0 : 0.05 * index }}
-                className={`cursor-default rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-accent/30 hover:text-accent ${
-                  isLowPower ? "" : isMobile ? "backdrop-blur-sm" : "backdrop-blur-md"
+                className={`cursor-default rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition-colors hover:border-accent/30 hover:text-accent ${
+                  isMobile ? "bg-white/10" : "bg-white/5 backdrop-blur-md"
                 }`}
               >
                 {skill}

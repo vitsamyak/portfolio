@@ -79,15 +79,26 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
     return () => window.removeEventListener("resize", onResize);
   }, [renderFrame]);
 
+  const rafRef = useRef<number | null>(null);
+
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (!ready) return;
     const index = Math.min(
       FRAME_COUNT - 1,
       Math.floor(progress * (FRAME_COUNT - 1))
     );
+
     if (index !== frameIndexRef.current) {
-      frameIndexRef.current = index;
-      renderFrame(index);
+      if (isMobile) {
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        rafRef.current = requestAnimationFrame(() => {
+          frameIndexRef.current = index;
+          renderFrame(index);
+        });
+      } else {
+        frameIndexRef.current = index;
+        renderFrame(index);
+      }
     }
   });
 

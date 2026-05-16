@@ -57,8 +57,8 @@ export default function Projects() {
             key={project.title}
             variants={item}
             whileTap={{ scale: 0.98 }}
-            className={`group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04] md:p-8 ${
-              isLowPower ? "" : isMobile ? "backdrop-blur-md" : "backdrop-blur-xl hover:shadow-[0_0_60px_-12px_rgba(167,139,250,0.15)]"
+            className={`group relative overflow-hidden rounded-2xl border border-white/5 p-6 transition-all duration-500 hover:border-white/20 md:p-8 ${
+              isMobile ? "bg-white/[0.04]" : "bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] hover:shadow-[0_0_60px_-12px_rgba(167,139,250,0.15)]"
             }`}
           >
             {!isMobile && (

@@ -44,7 +44,7 @@ export default function Header() {
       <div
         className={`relative mx-auto flex w-full items-center justify-between transition-all duration-500 ${
           scrolled
-            ? `h-14 w-full max-w-4xl rounded-full border border-white/10 bg-[#09090b]/90 px-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_20px_-5px_rgba(167,139,250,0.15)] ring-1 ring-white/5 ${isLowPower ? "" : "backdrop-blur-xl"}`
+            ? `h-14 w-full max-w-4xl rounded-full border border-white/10 px-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_20px_-5px_rgba(167,139,250,0.15)] ring-1 ring-white/5 ${isMobile ? "bg-[#18181b]" : "bg-[#09090b]/90 backdrop-blur-xl"}`
             : "h-16 w-full max-w-7xl bg-transparent px-6 md:px-12"
         }`}
       >
@@ -106,11 +106,11 @@ export default function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: isLowPower ? 0 : -20 }}
+            initial={{ opacity: 0, y: isMobile ? 0 : -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: isLowPower ? 0 : -20 }}
+            exit={{ opacity: 0, y: isMobile ? 0 : -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#09090b]/98 ${isLowPower ? "" : "backdrop-blur-2xl"}`}
+            className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${isMobile ? "bg-[#0a0a0a]" : "bg-[#09090b]/98 backdrop-blur-2xl"}`}
           >
             <nav className="flex flex-col items-center gap-10">
               {navLinks.map((link, i) => (
