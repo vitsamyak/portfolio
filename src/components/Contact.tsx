@@ -62,7 +62,12 @@ export default function Contact() {
 
       if (!serviceId || !templateId || !publicKey) {
         setStatus("error");
-        setErrorMessage("EmailJS configuration is missing. Please check your .env.local file and restart the server.");
+        const isProd = process.env.NODE_ENV === "production";
+        setErrorMessage(
+          isProd 
+            ? "Email service configuration is missing in Vercel settings. Please add the required environment variables."
+            : "EmailJS configuration is missing. Please check your .env.local file and restart the server."
+        );
         return;
       }
 

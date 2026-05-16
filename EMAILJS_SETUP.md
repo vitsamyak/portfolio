@@ -43,4 +43,17 @@ After adding `.env.local`, restart your development server to load the new varia
 npm run dev
 ```
 
-Your contact form should now be fully functional!
+## 7. Vercel Deployment (Important)
+Since `.env.local` is not uploaded to Vercel, you must add these variables manually in your Vercel Dashboard:
+
+1. Go to your project on [vercel.com](https://vercel.com).
+2. Navigate to **Settings** > **Environment Variables**.
+3. Add the following three keys exactly as they appear in your `.env.local`:
+   - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
+   - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
+   - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
+4. For each key, paste the corresponding value from your local `.env.local` file.
+5. Click **Save**.
+6. **Redeploy** your project (go to the **Deployments** tab, click the three dots on the latest deployment, and select **Redeploy**).
+
+Your contact form should now work on your live website!
