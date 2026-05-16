@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   title: "Samyak Vikas Gedam — Computer Engineering Student",
   description:
     "Portfolio of Samyak Vikas Gedam — B.E. Computer Engineering at VIT Pune (Batch 2029). Projects in IoT, programming, and software development.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

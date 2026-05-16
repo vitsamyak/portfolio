@@ -115,7 +115,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="mt-12 grid gap-4 sm:grid-cols-3"
+          className="mt-12 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         >
           {contactLinks.map((link) => (
             <div
@@ -180,7 +180,7 @@ export default function Contact() {
                   name="from_name"
                   placeholder="Your name"
                   disabled={status === "loading"}
-                  className="w-full rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-white placeholder:text-white/20 transition-all focus:border-accent focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
+                  className="w-full rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-base text-white placeholder:text-white/20 transition-all focus:border-accent focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 md:text-sm"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -193,7 +193,7 @@ export default function Contact() {
                   name="from_email"
                   placeholder="you@example.com"
                   disabled={status === "loading"}
-                  className="w-full rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-white placeholder:text-white/20 transition-all focus:border-accent focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
+                  className="w-full rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-base text-white placeholder:text-white/20 transition-all focus:border-accent focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 md:text-sm"
                 />
               </div>
             </motion.div>
@@ -207,7 +207,7 @@ export default function Contact() {
                 rows={5}
                 placeholder="Tell me about an opportunity or project..."
                 disabled={status === "loading"}
-                className="w-full resize-none rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-white placeholder:text-white/20 transition-all focus:border-accent focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
+                className="w-full resize-none rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-base text-white placeholder:text-white/20 transition-all focus:border-accent focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50 md:text-sm"
               />
             </div>
 

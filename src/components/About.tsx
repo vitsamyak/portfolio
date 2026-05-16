@@ -41,7 +41,7 @@ export default function About() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="mx-auto mb-20 grid max-w-7xl gap-8 rounded-2xl border border-white/5 bg-white/[0.02] p-6 backdrop-blur-xl md:grid-cols-3 md:p-8"
+        className="mx-auto mb-16 grid max-w-7xl gap-6 rounded-2xl border border-white/5 bg-white/[0.02] p-6 backdrop-blur-xl grid-cols-1 sm:grid-cols-2 md:mb-20 md:grid-cols-3 md:gap-8 md:p-8"
       >
         <motion.div>
           <p className="text-xs uppercase tracking-widest text-white/35">Location</p>

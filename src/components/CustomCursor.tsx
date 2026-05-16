@@ -23,7 +23,8 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      setIsMobile(window.innerWidth < 768 || isTouchDevice);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);

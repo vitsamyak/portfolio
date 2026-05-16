@@ -53,7 +53,8 @@ export default function Projects() {
           <motion.article
             key={project.title}
             variants={item}
-            className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-8 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04] hover:shadow-[0_0_60px_-12px_rgba(167,139,250,0.15)]"
+            whileTap={{ scale: 0.98 }}
+            className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 backdrop-blur-xl transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04] hover:shadow-[0_0_60px_-12px_rgba(167,139,250,0.15)] md:p-8"
           >
             <motion.div
               className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent/20 blur-[80px]"
