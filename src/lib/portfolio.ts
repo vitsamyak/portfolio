@@ -9,8 +9,8 @@ export const profile = {
   dob: "28 / 03 / 2006",
   languages: ["English", "Hindi", "Marathi"],
   nationality: "Indian",
-  linkedin: "https://linkedin.com/in/samyak-gedam",
-  github: "https://github.com/samyak-gedam",
+  linkedin: "https://www.linkedin.com/in/samyak-gedam-827a51394?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+  github: "https://github.com/vitsamyak",
 };
 
 export const objective =
