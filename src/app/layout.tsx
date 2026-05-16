@@ -19,7 +19,41 @@ const sans = DM_Sans({
 export const metadata: Metadata = {
   title: "Samyak Vikas Gedam — Computer Engineering Student",
   description:
-    "Portfolio of Samyak Vikas Gedam — B.E. Computer Engineering at VIT Pune (Batch 2029). Projects in IoT, programming, and software development.",
+    "Portfolio of Samyak Vikas Gedam — B.E. Computer Engineering student at VIT Pune. Projects in web development, IoT, programming and creative software experiences.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"))
+  ),
+  openGraph: {
+    title: "Samyak Vikas Gedam — Computer Engineering Student",
+    description:
+      "Portfolio of Samyak Vikas Gedam — B.E. Computer Engineering student at VIT Pune. Projects in web development, IoT, programming and creative software experiences.",
+    url: "/",
+    siteName: "Samyak Vikas Gedam Portfolio",
+    images: [
+      {
+        url: "/profile.jpg", // The user should place their profile image here
+        width: 1200,
+        height: 630,
+        alt: "Samyak Vikas Gedam — Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Samyak Vikas Gedam — Computer Engineering Student",
+    description:
+      "Portfolio of Samyak Vikas Gedam — B.E. Computer Engineering student at VIT Pune. Projects in web development, IoT, programming and creative software experiences.",
+    images: ["/profile.jpg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = {
