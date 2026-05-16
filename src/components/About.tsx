@@ -29,7 +29,7 @@ export default function About() {
           <p className="text-xs font-medium uppercase tracking-[0.35em] text-accent">
             About Me
           </p>
-          <h2 className="mt-4 bg-gradient-to-br from-white to-white/40 bg-clip-text text-4xl font-semibold tracking-tight text-transparent md:text-5xl">
+          <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white drop-shadow-md md:text-5xl">
             Computer Engineering student, builder at heart.
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-white/50">{objective}</p>

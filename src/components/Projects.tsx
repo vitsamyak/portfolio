@@ -33,7 +33,7 @@ export default function Projects() {
         <p className="text-xs font-medium uppercase tracking-[0.35em] text-accent">
           Projects
         </p>
-        <h2 className="mt-4 bg-gradient-to-br from-white to-white/40 bg-clip-text text-4xl font-semibold tracking-tight text-transparent md:text-5xl">
+        <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white drop-shadow-md md:text-5xl">
           Engineering work that solves real problems.
         </h2>
         <p className="mt-4 text-lg text-white/45">

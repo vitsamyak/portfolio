@@ -62,7 +62,7 @@ function HeroEditorial({
         )}
 
         <h1
-          className="font-display hero-title-glow text-[2.75rem] font-light leading-display tracking-luxury text-transparent bg-clip-text bg-gradient-to-br from-white via-white/92 to-white/55 sm:text-6xl md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem]"
+          className="font-display hero-title-glow text-[2.75rem] font-light leading-display tracking-luxury text-white sm:text-6xl md:text-[4.25rem] lg:text-[4.75rem] xl:text-[5.25rem]"
           aria-label={section.title}
         >
           {lines.map((line, i) => (
@@ -131,7 +131,7 @@ function NarrativeBlock({
       transition={{ type: "spring", stiffness: 100, damping: 30 }}
     >
       <h2
-        className={`font-display hero-title-glow font-light leading-editorial tracking-luxury text-transparent bg-clip-text bg-gradient-to-br from-white via-white/88 to-white/40 ${
+        className={`font-display hero-title-glow font-light leading-editorial tracking-luxury text-white ${
           section.align === "right" ? "ml-auto text-right" : ""
         } text-4xl sm:text-5xl md:text-6xl lg:text-[3.75rem]`}
       >
