@@ -6,6 +6,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import MagicBackground from "@/components/MagicBackground";
+import CinematicGlowBackground from "@/components/CinematicGlowBackground";
 
 export default function Home() {
   return (
@@ -18,6 +19,8 @@ export default function Home() {
       </div>
 
       <div className="relative z-20">
+        <CinematicGlowBackground />
+        
         <div className="pointer-events-none absolute left-0 top-0 -z-10 h-64 w-full bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
 
         <Header />
