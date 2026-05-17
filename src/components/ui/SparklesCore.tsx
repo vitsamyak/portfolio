@@ -44,6 +44,7 @@ export function SparklesCore({
       fadeDirection: number;
       speedX: number;
       speedY: number;
+      isClicked?: boolean;
     }> = [];
 
     // Helper to translate hex to rgb safely
@@ -108,6 +109,29 @@ export function SparklesCore({
       }
     };
 
+    // Spawns a premium stardust burst effect under the pointer coordinates
+    const handlePointerDown = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      // Burst of 2 to 3 magical floating star particles
+      const burstCount = Math.floor(Math.random() * 2) + 2; 
+      for (let i = 0; i < burstCount; i++) {
+        particles.push({
+          x: clickX + (Math.random() - 0.5) * 8,
+          y: clickY + (Math.random() - 0.5) * 8,
+          size: Math.random() * 1.3 + 0.7,
+          opacity: 0.95,
+          fadeSpeed: (Math.random() * 0.008 + 0.005) * speed,
+          fadeDirection: -1, // Fades out completely
+          speedX: (Math.random() - 0.5) * 0.25 * speed,
+          speedY: -(Math.random() * 0.3 + 0.12) * speed,
+          isClicked: true, // Flagged to garbage-collect on complete fade out
+        });
+      }
+    };
+
     const updateAndDraw = () => {
       if (!canvas || !ctx) return;
 
@@ -117,25 +141,38 @@ export function SparklesCore({
 
       ctx.clearRect(0, 0, width, height);
 
+      const activeParticles: typeof particles = [];
+
       particles.forEach((p) => {
         // Move particle
         p.x += p.speedX;
         p.y += p.speedY;
 
-        // Wrap around boundaries
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) {
-          p.y = height;
-          p.x = Math.random() * width;
-        }
+        if (p.isClicked) {
+          // Clicked stars fade out and disappear completely
+          p.opacity += p.fadeSpeed * p.fadeDirection;
+          if (p.opacity > 0.02) {
+            activeParticles.push(p);
+          } else {
+            return; // Garbage collect
+          }
+        } else {
+          // Wrap standard background stars around canvas boundaries
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) {
+            p.y = height;
+            p.x = Math.random() * width;
+          }
 
-        // Shimmer (Twinkle)
-        p.opacity += p.fadeSpeed * p.fadeDirection;
-        if (p.opacity >= 0.7) {
-          p.fadeDirection = -1;
-        } else if (p.opacity <= 0.04) {
-          p.fadeDirection = 1;
+          // Twinkle standard background stars infinitely
+          p.opacity += p.fadeSpeed * p.fadeDirection;
+          if (p.opacity >= 0.7) {
+            p.fadeDirection = -1;
+          } else if (p.opacity <= 0.04) {
+            p.fadeDirection = 1;
+          }
+          activeParticles.push(p);
         }
 
         // Draw particle points with a premium soft glow shadow
@@ -150,11 +187,13 @@ export function SparklesCore({
       // Clear shadows for potential next render steps
       ctx.shadowBlur = 0;
 
+      particles = activeParticles;
       animationFrameId = requestAnimationFrame(updateAndDraw);
     };
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("pointerdown", handlePointerDown, { passive: true });
 
     // Skip active canvas loop if device is on low-power mode
     if (!isLowPower) {
@@ -163,6 +202,7 @@ export function SparklesCore({
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("pointerdown", handlePointerDown);
       cancelAnimationFrame(animationFrameId);
     };
   }, [minSize, maxSize, particleDensity, particleColor, speed, isMobile, isLowPower]);
