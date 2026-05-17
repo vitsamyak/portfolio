@@ -65,7 +65,7 @@ function ElegantShape({
 
 export default function CinematicGlowBackground() {
   const { isMobile, isLowPower } = useDevice();
-  const renderShapes = !isMobile && !isLowPower;
+  const renderShapes = !isLowPower; // Enable for mobile, disable only on severe low-power/saving modes
 
   return (
     <div className="absolute inset-0 -z-10 w-full overflow-hidden bg-transparent">
@@ -116,61 +116,61 @@ export default function CinematicGlowBackground() {
           {/* Shape 1: Large Indigo Capsule - Projects top left */}
           <ElegantShape
             delay={0.3}
-            width={580}
-            height={130}
+            width={isMobile ? 260 : 580}
+            height={isMobile ? 65 : 130}
             rotate={12}
             gradient="from-indigo-500/[0.15]"
-            className="left-[-8%] md:left-[-4%] top-[12%]"
+            className="left-[-12%] sm:left-[-8%] md:left-[-4%] top-[12%]"
           />
 
           {/* Shape 2: Small Cyan Capsule - Projects/About transition top right */}
           <ElegantShape
             delay={0.7}
-            width={200}
-            height={60}
+            width={isMobile ? 120 : 200}
+            height={isMobile ? 40 : 60}
             rotate={20}
             gradient="from-cyan-500/[0.15]"
-            className="right-[8%] md:right-[12%] top-[28%]"
+            className="right-[-4%] sm:right-[4%] md:right-[12%] top-[28%]"
           />
 
           {/* Shape 3: Mid-size Rose Capsule - About middle left */}
           <ElegantShape
             delay={0.5}
-            width={420}
-            height={100}
+            width={isMobile ? 200 : 420}
+            height={isMobile ? 50 : 100}
             rotate={-15}
             gradient="from-rose-500/[0.15]"
-            className="left-[2%] md:left-[5%] top-[45%]"
+            className="left-[-2%] sm:left-[2%] md:left-[5%] top-[45%]"
           />
 
           {/* Shape 4: Large Violet Capsule - About/Contact transition lower right */}
           <ElegantShape
             delay={0.4}
-            width={480}
-            height={110}
+            width={isMobile ? 240 : 480}
+            height={isMobile ? 60 : 110}
             rotate={-12}
             gradient="from-violet-500/[0.15]"
-            className="right-[-4%] md:right-[-2%] top-[62%]"
+            className="right-[-8%] sm:right-[-4%] md:right-[-2%] top-[62%]"
           />
 
           {/* Shape 5: Medium Amber Capsule - Contact bottom left */}
           <ElegantShape
             delay={0.6}
-            width={280}
-            height={70}
+            width={isMobile ? 140 : 280}
+            height={isMobile ? 45 : 70}
             rotate={15}
             gradient="from-amber-500/[0.15]"
-            className="left-[10%] md:left-[15%] top-[80%]"
+            className="left-[4%] sm:left-[8%] md:left-[15%] top-[80%]"
           />
 
           {/* Shape 6: Small Cyan Capsule - Footer bottom right */}
           <ElegantShape
             delay={0.8}
-            width={180}
-            height={50}
+            width={isMobile ? 100 : 180}
+            height={isMobile ? 35 : 50}
             rotate={-25}
             gradient="from-cyan-500/[0.15]"
-            className="right-[10%] md:right-[15%] top-[90%]"
+            className="right-[4%] sm:right-[8%] md:right-[15%] top-[90%]"
           />
         </div>
       )}
