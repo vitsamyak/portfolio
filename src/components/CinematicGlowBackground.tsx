@@ -1,6 +1,72 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { useDevice } from "@/hooks/useDevice";
+
+type ElegantShapeProps = {
+  className?: string;
+  delay?: number;
+  width?: number;
+  height?: number;
+  rotate?: number;
+  gradient?: string;
+};
+
+function ElegantShape({
+  className,
+  delay = 0,
+  width = 400,
+  height = 100,
+  rotate = 0,
+  gradient = "from-white/[0.08]",
+}: ElegantShapeProps) {
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: -150,
+        rotate: rotate - 15,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        rotate: rotate,
+      }}
+      transition={{
+        duration: 2.4,
+        delay,
+        ease: [0.23, 0.86, 0.39, 0.96],
+        opacity: { duration: 1.2 },
+      }}
+      className={`absolute pointer-events-none ${className || ""}`}
+    >
+      <motion.div
+        animate={{
+          y: [0, 15, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          width,
+          height,
+        }}
+        className="relative"
+      >
+        <div
+          className={`absolute inset-0 rounded-full bg-gradient-to-r to-transparent ${gradient} backdrop-blur-[2px] border-2 border-white/[0.15] shadow-[0_8px_32px_0_rgba(255,255,255,0.1)] after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]`}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function CinematicGlowBackground() {
+  const { isMobile, isLowPower } = useDevice();
+  const renderShapes = !isMobile && !isLowPower;
+
   return (
     <div className="absolute inset-0 -z-10 w-full overflow-hidden bg-transparent">
       {/* 1. Subtle film-grain noise overlay */}
@@ -20,7 +86,10 @@ export default function CinematicGlowBackground() {
         }}
       />
 
-      {/* 3. Ambient Lighting (Radial Glows) */}
+      {/* 3. Kokonut UI dual-tone ambient glows (Indigo + Rose) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.04] via-transparent to-rose-500/[0.04] blur-3xl pointer-events-none" />
+
+      {/* 4. Ambient Lighting (Radial Glows) */}
       {/* Top Left Deep Blue Glow */}
       <div 
         className="pointer-events-none absolute left-[-10%] top-[8%] h-[800px] w-[800px] rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.12)_0%,rgba(37,99,235,0)_70%)] blur-[120px]" 
@@ -40,6 +109,71 @@ export default function CinematicGlowBackground() {
       <div 
         className="pointer-events-none absolute right-[5%] bottom-[2%] h-[800px] w-[800px] rounded-full bg-[radial-gradient(circle,rgba(234,88,12,0.06)_0%,rgba(234,88,12,0)_70%)] blur-[100px]" 
       />
+
+      {/* 5. Kokonut UI Premium Animated Floating Geometric Shapes */}
+      {renderShapes && (
+        <div className="absolute inset-0 z-0">
+          {/* Shape 1: Large Indigo Capsule - Projects top left */}
+          <ElegantShape
+            delay={0.3}
+            width={580}
+            height={130}
+            rotate={12}
+            gradient="from-indigo-500/[0.15]"
+            className="left-[-8%] md:left-[-4%] top-[12%]"
+          />
+
+          {/* Shape 2: Small Cyan Capsule - Projects/About transition top right */}
+          <ElegantShape
+            delay={0.7}
+            width={200}
+            height={60}
+            rotate={20}
+            gradient="from-cyan-500/[0.15]"
+            className="right-[8%] md:right-[12%] top-[28%]"
+          />
+
+          {/* Shape 3: Mid-size Rose Capsule - About middle left */}
+          <ElegantShape
+            delay={0.5}
+            width={420}
+            height={100}
+            rotate={-15}
+            gradient="from-rose-500/[0.15]"
+            className="left-[2%] md:left-[5%] top-[45%]"
+          />
+
+          {/* Shape 4: Large Violet Capsule - About/Contact transition lower right */}
+          <ElegantShape
+            delay={0.4}
+            width={480}
+            height={110}
+            rotate={-12}
+            gradient="from-violet-500/[0.15]"
+            className="right-[-4%] md:right-[-2%] top-[62%]"
+          />
+
+          {/* Shape 5: Medium Amber Capsule - Contact bottom left */}
+          <ElegantShape
+            delay={0.6}
+            width={280}
+            height={70}
+            rotate={15}
+            gradient="from-amber-500/[0.15]"
+            className="left-[10%] md:left-[15%] top-[80%]"
+          />
+
+          {/* Shape 6: Small Cyan Capsule - Footer bottom right */}
+          <ElegantShape
+            delay={0.8}
+            width={180}
+            height={50}
+            rotate={-25}
+            gradient="from-cyan-500/[0.15]"
+            className="right-[10%] md:right-[15%] top-[90%]"
+          />
+        </div>
+      )}
     </div>
   );
 }
