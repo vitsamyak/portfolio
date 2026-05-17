@@ -29,8 +29,9 @@ export function useDevice(): DeviceType {
       const isDesktop = width >= 1024;
       const isTouch = window.matchMedia("(pointer: coarse)").matches;
       
-      // Heuristic for low power: mobile + high DPR or older Android
-      const isLowPower = isMobile && (window.devicePixelRatio > 2 || /Android/i.test(navigator.userAgent));
+      // Smart check for active Data Saver modes on compatible browsers
+      const isLowPower = typeof navigator !== "undefined" && 
+        ((navigator as any).connection?.saveData === true);
       
       setDevice({
         isMobile,
