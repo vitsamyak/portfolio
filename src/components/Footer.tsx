@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="border-t border-white/[0.06] bg-transparent px-6 py-12 backdrop-blur-md md:px-12">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row">
         <p className="text-center text-sm text-white/30 sm:text-left">
-          © {new Date().getFullYear()} {profile.name}. B.E. Computer Engineering ·
+          © {new Date().getFullYear()} {profile.name}. B.Tech. Computer Engineering ·
           Batch 2029.
         </p>
         <div className="flex gap-6">

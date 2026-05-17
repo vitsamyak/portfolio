@@ -48,15 +48,15 @@ export const achievements = [
 export const skillGroups = [
   {
     label: "Programming",
-    items: ["Java (Basic)", "C++ (Basic)", "Python (Basic)"],
+    items: ["Java (Basic)", "C++ (Basic)", "Python"],
   },
   {
     label: "Web",
-    items: ["HTML", "CSS (Learning)", "JavaScript (Learning)", "Full Stack Development (Learning)", "AI Development (Learning)", "AI Design (Learning)"],
+    items: ["HTML", "CSS", "JavaScript", "Full Stack Development (Learning)", "AI Development (Learning)", "AI Design (Learning)"],
   },
   {
     label: "Tools",
-    items: ["VS Code", "Git (Basic)"],
+    items: ["VS Code", "Git"],
   },
   {
     label: "Concepts",
