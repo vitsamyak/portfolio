@@ -88,6 +88,7 @@ export const projects = [
       "Developed a smart zebra crossing system utilizing IoT technologies to enhance pedestrian safety and automate traffic flow.",
     tags: ["Arduino", "Ultrasonic Sensors", "Firebase", "IoT"],
     year: "2025",
+    link: "https://safecross.vercel.app",
     highlights: [
       "Developed a smart zebra crossing system to enhance pedestrian safety",
       "Used sensors to detect pedestrians and automatically control traffic signals",
