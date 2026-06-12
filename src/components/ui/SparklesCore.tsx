@@ -74,13 +74,25 @@ export function SparklesCore({
       return Math.min(Math.max(count, 12), maxCount);
     };
 
+    let lastWidth = 0;
+    let lastHeight = 0;
+
     const resizeCanvas = () => {
       const parent = canvas.parentElement;
       if (!parent) return;
 
-      const dpr = window.devicePixelRatio || 1;
       const width = parent.clientWidth;
       const height = parent.clientHeight;
+
+      // Ignore minor vertical height adjustments (e.g. mobile URL bar toggling) if the width hasn't changed
+      if (lastWidth === width && Math.abs(height - lastHeight) < 120) {
+        return;
+      }
+
+      lastWidth = width;
+      lastHeight = height;
+
+      const dpr = window.devicePixelRatio || 1;
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -192,8 +204,12 @@ export function SparklesCore({
     };
 
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    window.addEventListener("resize", resizeCanvas, { passive: true });
+    
+    // Disable pointerdown particle burst on mobile to avoid layout reflows (getBoundingClientRect) during touch scrolling
+    if (!isMobile) {
+      window.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    }
 
     // Skip active canvas loop if device is on low-power mode
     if (!isLowPower) {
@@ -202,7 +218,9 @@ export function SparklesCore({
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("pointerdown", handlePointerDown);
+      if (!isMobile) {
+        window.removeEventListener("pointerdown", handlePointerDown);
+      }
       cancelAnimationFrame(animationFrameId);
     };
   }, [minSize, maxSize, particleDensity, particleColor, speed, isMobile, isLowPower]);

@@ -6,13 +6,14 @@ import { useDevice } from "@/hooks/useDevice";
 import { SparklesCore } from "./ui/SparklesCore";
 
 export default function MagicBackground() {
-  const { isMobile, isLowPower } = useDevice();
+  const { isMobile, isLowPower, isTouch } = useDevice();
   const containerRef = useRef<HTMLDivElement>(null);
 
   // High-performance pointer tracking via CSS variables (zero React re-renders)
+  // Disabled on mobile/touch devices since the spotlight grid isn't rendered there
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || isMobile) return;
+    if (!container || isMobile || isTouch) return;
 
     const handlePointerMove = (e: PointerEvent) => {
       const rect = container.getBoundingClientRect();
@@ -23,35 +24,11 @@ export default function MagicBackground() {
       container.style.setProperty("--mouse-y", `${y}px`);
     };
 
-    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [isMobile]);
-
-  // Touch coordinates listener for mobile and tablet drag events
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 0) return;
-      const rect = container.getBoundingClientRect();
-      const x = e.touches[0].clientX - rect.left;
-      const y = e.touches[0].clientY - rect.top;
-      
-      container.style.setProperty("--mouse-x", `${x}px`);
-      container.style.setProperty("--mouse-y", `${y}px`);
-    };
-
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    window.addEventListener("touchstart", handleTouchMove, { passive: true });
-    
-    return () => {
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchstart", handleTouchMove);
-    };
-  }, []);
+  }, [isMobile, isTouch]);
 
   return (
     <div 
@@ -71,16 +48,18 @@ export default function MagicBackground() {
         }}
       />
       
-      {/* 2. Interactive Spotlight Dot Grid (illuminates nearby dots around mouse or touch coordinates) */}
-      <div 
-        className="absolute inset-0 z-0 h-full w-full opacity-[0.55] mix-blend-screen pointer-events-none"
-        style={{
-          backgroundImage: "radial-gradient(circle at center, rgba(167,139,250,0.3) 1px, transparent 1px)",
-          backgroundSize: isMobile ? "32px 32px" : "24px 24px",
-          maskImage: "radial-gradient(circle 180px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%)",
-          WebkitMaskImage: "radial-gradient(circle 180px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%)",
-        }}
-      />
+      {/* 2. Interactive Spotlight Dot Grid (illuminates nearby dots around mouse coordinates - disabled on mobile/tablet/touch) */}
+      {!isMobile && !isTouch && (
+        <div 
+          className="absolute inset-0 z-0 h-full w-full opacity-[0.55] mix-blend-screen pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle at center, rgba(167,139,250,0.3) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+            maskImage: "radial-gradient(circle 180px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(circle 180px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%)",
+          }}
+        />
+      )}
 
       {/* 3. Shimmering Stardust Sparkles Overlay */}
       <div className="absolute inset-0 z-10 h-full w-full mix-blend-screen pointer-events-none">

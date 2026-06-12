@@ -24,7 +24,7 @@ export default function Projects() {
   return (
     <section
       id="work"
-      className="relative bg-transparent px-6 py-32 md:px-12 lg:px-24"
+      className="relative bg-transparent px-6 py-20 md:py-32 md:px-12 lg:px-24"
     >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -57,7 +57,7 @@ export default function Projects() {
             key={project.title}
             variants={item}
             whileTap={{ scale: 0.98 }}
-            className={`group relative overflow-hidden rounded-2xl border border-white/5 p-6 transition-all duration-500 hover:border-white/20 md:p-8 ${
+            className={`group relative overflow-hidden rounded-2xl border border-white/5 p-6 transition-[border-color,background-color,box-shadow] duration-500 hover:border-white/20 md:p-8 ${
               isMobile ? "bg-white/[0.04]" : "bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] hover:shadow-[0_0_60px_-12px_rgba(167,139,250,0.15)]"
             }`}
           >
@@ -101,7 +101,7 @@ export default function Projects() {
             </ul>
 
             {project.link ? (
-              <div className="mt-6 flex items-center justify-between gap-4 flex-wrap">
+              <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
@@ -116,9 +116,9 @@ export default function Projects() {
                   variant="outline"
                   size="sm"
                   href={project.link}
-                  className="group/btn h-9"
+                  className="group/btn h-9 w-full sm:w-auto"
                 >
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex items-center justify-center gap-1.5 w-full">
                     Explore Website
                     <svg
                       className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
@@ -159,10 +159,10 @@ export default function Projects() {
         transition={{ delay: 0.4 }}
         className="mt-20 flex flex-col items-center gap-6 sm:flex-row sm:justify-between"
       >
-        <p className="text-white/40">
+        <p className="text-white/40 text-center sm:text-left">
           Open to internships, collaborations, and learning opportunities.
         </p>
-        <Button variant="primary" href="#contact">
+        <Button variant="primary" href="#contact" className="w-full sm:w-auto">
           Get in touch
         </Button>
       </motion.div>

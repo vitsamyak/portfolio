@@ -94,7 +94,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative border-t border-white/[0.06] bg-transparent px-6 py-32 md:px-12 lg:px-24"
+      className="relative border-t border-white/[0.06] bg-transparent px-6 py-20 md:py-32 md:px-12 lg:px-24"
     >
       <div className="mx-auto max-w-4xl text-center">
         <motion.div
@@ -122,10 +122,12 @@ export default function Contact() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="mt-12 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {contactLinks.map((link) => (
+          {contactLinks.map((link, index) => (
             <div
               key={link.label}
-              className="rounded-xl border border-white/5 bg-white/[0.02] px-5 py-4 backdrop-blur-md"
+              className={`rounded-xl border border-white/5 bg-white/[0.02] px-5 py-4 backdrop-blur-md ${
+                index === 2 ? "sm:col-span-2 lg:col-span-1" : ""
+              }`}
             >
               <p className="text-xs uppercase tracking-widest text-white/35">
                 {link.label}
@@ -151,13 +153,13 @@ export default function Contact() {
           transition={{ duration: 0.7, delay: 0.25 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <Button variant="outline" size="sm" href={profile.linkedin}>
+          <Button variant="outline" size="sm" href={profile.linkedin} className="w-full sm:w-auto">
             LinkedIn
           </Button>
-          <Button variant="outline" size="sm" href={profile.github}>
+          <Button variant="outline" size="sm" href={profile.github} className="w-full sm:w-auto">
             GitHub
           </Button>
-          <Button variant="primary" size="sm" href={`mailto:${profile.email}`}>
+          <Button variant="primary" size="sm" href={`mailto:${profile.email}`} className="w-full sm:w-auto">
             Email me
           </Button>
         </motion.div>

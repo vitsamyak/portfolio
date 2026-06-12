@@ -2,32 +2,28 @@
 
 import { useEffect, useState } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
+import { useDevice } from "@/hooks/useDevice";
 
 export default function CustomCursor() {
+  const { isMobile, isTablet, isTouch } = useDevice();
   const [isHovering, setIsHovering] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Position motion values
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth springs for the dual-speed effect
-  // Inner dot: Precise and responsive
-  const dotX = useSpring(mouseX, { stiffness: 800, damping: 45, mass: 0.1 });
-  const dotY = useSpring(mouseY, { stiffness: 800, damping: 45, mass: 0.1 });
-
-  // Outer ring: Cinematic lag
-  const ringX = useSpring(mouseX, { stiffness: 120, damping: 24, mass: 0.6 });
-  const ringY = useSpring(mouseY, { stiffness: 120, damping: 24, mass: 0.6 });
+  // Smooth springs for precise, responsive tracking
+  const dotX = useSpring(mouseX, { stiffness: 1000, damping: 50, mass: 0.08 });
+  const dotY = useSpring(mouseY, { stiffness: 1000, damping: 50, mass: 0.08 });
 
   useEffect(() => {
-    const checkMobile = () => {
-      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-      setIsMobile(window.innerWidth < 768 || isTouchDevice);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || isMobile || isTablet || isTouch) return;
 
     const moveMouse = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -37,10 +33,14 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      if (!target) return;
       const isClickable =
         target.closest("a") ||
         target.closest("button") ||
-        window.getComputedStyle(target).cursor === "pointer";
+        target.closest('[role="button"]') ||
+        target.closest('input[type="submit"]') ||
+        target.closest('input[type="button"]') ||
+        target.closest(".clickable");
       
       setIsHovering(!!isClickable);
     };
@@ -51,13 +51,12 @@ export default function CustomCursor() {
     window.addEventListener("mouseenter", () => setIsVisible(true));
 
     return () => {
-      window.removeEventListener("resize", checkMobile);
       window.removeEventListener("mousemove", moveMouse);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [mouseX, mouseY, isVisible]);
+  }, [mounted, isMobile, isTablet, isTouch, mouseX, mouseY, isVisible]);
 
-  if (isMobile || !isVisible) return null;
+  if (!mounted || isMobile || isTablet || isTouch || !isVisible) return null;
 
   return (
     <>
@@ -67,36 +66,14 @@ export default function CustomCursor() {
         * {
           cursor: none !important;
         }
-        a, button, [role="button"] {
+        a, button, [role="button"], .clickable {
           cursor: none !important;
         }
       `,
         }}
       />
 
-      {/* Outer Ring - The Cinematic Follower */}
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9998] mix-blend-exclusion"
-        style={{
-          x: ringX,
-          y: ringY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-      >
-        <motion.div
-          animate={{
-            width: isHovering ? 56 : 32,
-            height: isHovering ? 56 : 32,
-            opacity: isHovering ? 0.7 : 0.4,
-            borderColor: isHovering ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.3)",
-          }}
-          transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-          className="rounded-full border-[0.5px] backdrop-blur-[1px]"
-        />
-      </motion.div>
-
-      {/* Inner Dot - The Precise Target */}
+      {/* Precise Target Dot */}
       <motion.div
         className="pointer-events-none fixed left-0 top-0 z-[9999]"
         style={{
@@ -108,14 +85,11 @@ export default function CustomCursor() {
       >
         <motion.div
           animate={{
-            scale: isHovering ? 0.4 : 1,
-            backgroundColor: isHovering ? "rgba(255, 165, 0, 0.8)" : "rgba(255, 255, 255, 1)",
-            boxShadow: isHovering 
-              ? "0 0 12px rgba(255, 165, 0, 0.6)" 
-              : "0 0 8px rgba(255, 255, 255, 0.3)",
+            scale: isHovering ? 2.2 : 1,
+            backgroundColor: isHovering ? "rgba(167, 139, 250, 0.95)" : "rgba(255, 255, 255, 1)",
           }}
-          transition={{ duration: 0.3 }}
-          className="h-1.5 w-1.5 rounded-full"
+          transition={{ type: "spring", stiffness: 350, damping: 28 }}
+          className="h-1.5 w-1.5 rounded-full shadow-[0_0_6px_rgba(255,255,255,0.3)]"
         />
       </motion.div>
     </>

@@ -50,7 +50,7 @@ export default function Header() {
       >
         <a
           href="#"
-          className="relative z-[60] text-lg font-bold tracking-tight text-white drop-shadow-sm transition-all hover:opacity-80 md:relative absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0"
+          className="relative z-[60] text-sm sm:text-base md:text-lg font-bold tracking-tight text-white drop-shadow-sm transition-all hover:opacity-80 md:relative absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0"
           onClick={() => setIsOpen(false)}
         >
           {profile.name}

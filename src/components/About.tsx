@@ -19,7 +19,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative border-t border-white/[0.06] bg-transparent px-6 py-32 md:px-12 lg:px-24"
+      className="relative border-t border-white/[0.06] bg-transparent px-6 py-20 md:py-32 md:px-12 lg:px-24"
     >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -56,7 +56,7 @@ export default function About() {
           <p className="text-xs uppercase tracking-widest text-white/35">Languages</p>
           <p className="mt-2 text-sm text-white/70">{profile.languages.join(" · ")}</p>
         </motion.div>
-        <motion.div>
+        <motion.div className="sm:col-span-2 md:col-span-1">
           <p className="text-xs uppercase tracking-widest text-white/35">Education</p>
           <p className="mt-2 text-sm text-white/70">{profile.tagline}</p>
         </motion.div>
@@ -118,7 +118,7 @@ export default function About() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: isMobile ? 0 : 0.05 * index }}
-                className={`cursor-default rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition-colors hover:border-accent/30 hover:text-accent ${
+                className={`cursor-default rounded-full border border-white/10 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm text-white/70 transition-colors hover:border-accent/30 hover:text-accent ${
                   isMobile ? "bg-white/10" : "bg-white/5 backdrop-blur-md"
                 }`}
               >
@@ -136,7 +136,7 @@ export default function About() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: isMobile ? 0 : 0.05 * index }}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white/55"
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm text-white/55"
               >
                 {skill}
               </motion.span>

@@ -16,7 +16,8 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
   const frameIndexRef = useRef(0);
   const [ready, setReady] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
-  const { isMobile, dpr } = useDevice();
+  const { isMobile, isTablet, dpr } = useDevice();
+  const dimensionsRef = useRef({ width: 0, height: 0 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -32,18 +33,13 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
     const img = frames[index];
     if (!ctx || !img?.complete) return;
 
-    const { width, height } = canvas.getBoundingClientRect();
-
-    if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+    const { width, height } = dimensionsRef.current;
+    if (width === 0 || height === 0) return;
 
     ctx.fillStyle = "#0a0a0a";
     ctx.fillRect(0, 0, width, height);
     drawCover(ctx, img, width, height);
-  }, [dpr]);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -74,10 +70,46 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
   }, [renderFrame]);
 
   useEffect(() => {
-    const onResize = () => renderFrame(frameIndexRef.current);
-    window.addEventListener("resize", onResize);
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+
+    const updateDimensions = (force = false) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const currentWidth = window.innerWidth;
+      const currentHeight = window.innerHeight;
+
+      // Only resize if width changed, or height changed significantly (> 120px) to ignore mobile address bar toggle
+      const widthChanged = currentWidth !== lastWidth;
+      const heightChanged = Math.abs(currentHeight - lastHeight) > 120;
+
+      if (!force && !widthChanged && !heightChanged) {
+        return;
+      }
+
+      lastWidth = currentWidth;
+      lastHeight = currentHeight;
+
+      const rect = canvas.getBoundingClientRect();
+      dimensionsRef.current = { width: rect.width, height: rect.height };
+      
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      
+      renderFrame(frameIndexRef.current);
+    };
+
+    updateDimensions(true);
+    
+    const onResize = () => updateDimensions(false);
+    window.addEventListener("resize", onResize, { passive: true });
     return () => window.removeEventListener("resize", onResize);
-  }, [renderFrame]);
+  }, [dpr, renderFrame]);
 
   const rafRef = useRef<number | null>(null);
 
@@ -89,7 +121,7 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
     );
 
     if (index !== frameIndexRef.current) {
-      if (isMobile) {
+      if (isMobile || isTablet) {
         if (rafRef.current) cancelAnimationFrame(rafRef.current);
         rafRef.current = requestAnimationFrame(() => {
           frameIndexRef.current = index;

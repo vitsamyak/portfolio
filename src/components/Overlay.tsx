@@ -270,18 +270,21 @@ function ScrollHint({
 }
 
 export default function Overlay({ scrollTargetRef }: OverlayProps) {
+  const { isMobile, isTouch } = useDevice();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (isMobile || isTouch) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({
         x: (e.clientX / window.innerWidth) * 2 - 1,
         y: (e.clientY / window.innerHeight) * 2 - 1,
       });
     };
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [isMobile, isTouch]);
 
   const { scrollYProgress } = useScroll({
     target: scrollTargetRef,

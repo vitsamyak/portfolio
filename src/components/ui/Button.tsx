@@ -14,11 +14,11 @@ type ButtonProps = HTMLMotionProps<"button"> & {
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "relative overflow-hidden bg-white/5 text-white border border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(167,139,250,0.3)] group transition-all duration-300",
+    "relative overflow-hidden bg-white/5 text-white border border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(167,139,250,0.3)] group transition-[background-color,border-color,color,box-shadow,opacity] duration-300",
   ghost:
-    "bg-transparent text-white/70 border border-transparent hover:text-white hover:bg-white/5 transition-all duration-300",
+    "bg-transparent text-white/70 border border-transparent hover:text-white hover:bg-white/5 transition-[background-color,border-color,color,opacity] duration-300",
   outline:
-    "bg-transparent text-white border border-white/15 backdrop-blur-md hover:border-white/30 hover:bg-white/5 transition-all duration-300",
+    "bg-transparent text-white border border-white/15 backdrop-blur-md hover:border-white/30 hover:bg-white/5 transition-[background-color,border-color,color,opacity] duration-300",
 };
 
 const sizes: Record<ButtonSize, string> = {
