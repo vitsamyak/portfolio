@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type RefObject } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, type MotionValue } from "framer-motion";
 import { scrollNarrative } from "@/lib/portfolio";
 
 import { useDevice } from "@/hooks/useDevice";
@@ -36,22 +36,21 @@ function HeroEditorial({
   mouseY,
 }: {
   section: Section;
-  mouseX: number;
-  mouseY: number;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
 }) {
   const lines = section.titleLines ?? [section.title];
   const { isMobile } = useDevice();
-  const parallaxStrength = isMobile ? 0 : 10;
+  const parallaxStrength = isMobile ? 0 : 6;
+
+  const x = useTransform(mouseX, (val) => val * parallaxStrength);
+  const y = useTransform(mouseY, (val) => val * parallaxStrength * 0.6);
 
   return (
     <div className="grid w-full max-w-[1680px] grid-cols-12 items-center px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20">
       <motion.div
         className="col-span-12 flex flex-col sm:col-span-8 sm:max-w-[22rem] md:col-span-7 md:max-w-[26rem] lg:col-span-5 lg:max-w-[30rem] xl:col-span-4 xl:max-w-[32rem]"
-        animate={{
-          x: mouseX * parallaxStrength,
-          y: mouseY * parallaxStrength * 0.6,
-        }}
-        transition={{ type: "spring", stiffness: 120, damping: 28 }}
+        style={{ x, y }}
       >
         {section.eyebrow && (
           <motion.p
@@ -112,8 +111,8 @@ function NarrativeBlock({
   mouseY,
 }: {
   section: Section;
-  mouseX: number;
-  mouseY: number;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
 }) {
   const lines = section.titleLines ?? section.title.split(" ");
   const useLineBreaks = Boolean(section.titleLines);
@@ -123,17 +122,14 @@ function NarrativeBlock({
       ? "col-start-1 col-span-12 sm:col-start-5 sm:col-span-8 lg:col-start-7 lg:col-span-6 items-end text-right ml-auto"
       : "col-start-1 col-span-12 sm:col-span-8 lg:col-span-6 items-start text-left";
 
-  const parallaxStrength = isMobile ? 0 : (section.parallax > 0 ? 12 : -12);
-  const parallaxX = mouseX * parallaxStrength;
+  const parallaxStrength = isMobile ? 0 : (section.parallax > 0 ? 8 : -8);
+  const x = useTransform(mouseX, (val) => val * parallaxStrength);
+  const y = useTransform(mouseY, (val) => val * (isMobile ? 0 : (section.parallax > 0 ? 6 : -6)));
 
   return (
     <motion.div
       className={`col-span-12 flex max-w-xl flex-col ${alignClass}`}
-      animate={{
-        x: parallaxX,
-        y: mouseY * (isMobile ? 0 : (section.parallax > 0 ? 10 : -10)),
-      }}
-      transition={{ type: "spring", stiffness: 100, damping: 30 }}
+      style={{ x, y }}
     >
       <h2
         className={`font-display hero-title-glow font-light leading-editorial tracking-luxury text-white ${
@@ -197,9 +193,9 @@ function OverlaySection({
   mouseY,
 }: {
   section: Section;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
-  mouseX: number;
-  mouseY: number;
+  scrollYProgress: MotionValue<number>;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
 }) {
   const { isMobile, isTouch } = useDevice();
   const opacity = useTransform(
@@ -208,7 +204,7 @@ function OverlaySection({
     [section.fadeIn === 0 ? 1 : 0, 1, 1, 0]
   );
 
-  const parallaxDistance = isMobile ? 0 : 24;
+  const parallaxDistance = isMobile ? 0 : 16;
   const scrollY = useTransform(
     scrollYProgress,
     [section.fadeIn, section.fadeOut],
@@ -218,8 +214,9 @@ function OverlaySection({
   const isHero = section.layout === "hero-editorial";
   
   // Disable mouse motion values on touch devices for performance
-  const activeMouseX = isTouch ? 0 : mouseX;
-  const activeMouseY = isTouch ? 0 : mouseY;
+  const zeroMotion = useMotionValue(0);
+  const activeMouseX = isTouch ? zeroMotion : mouseX;
+  const activeMouseY = isTouch ? zeroMotion : mouseY;
 
   return (
     <motion.div
@@ -248,7 +245,7 @@ function OverlaySection({
 function ScrollHint({
   scrollYProgress,
 }: {
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+  scrollYProgress: MotionValue<number>;
 }) {
   const hintOpacity = useTransform(scrollYProgress, [0, 0.12, 0.2], [1, 1, 0]);
 
@@ -271,25 +268,40 @@ function ScrollHint({
 
 export default function Overlay({ scrollTargetRef }: OverlayProps) {
   const { isMobile, isTouch } = useDevice();
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
+  // Use MotionValues for mouse coordinates to avoid triggering React re-renders on mousemove
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Apply spring smoothing to mouse coordinates for premium, organic response
+  const mouseSpringConfig = { stiffness: 120, damping: 28, mass: 0.1 };
+  const smoothMouseX = useSpring(mouseX, mouseSpringConfig);
+  const smoothMouseY = useSpring(mouseY, mouseSpringConfig);
 
   useEffect(() => {
     if (isMobile || isTouch) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: (e.clientY / window.innerHeight) * 2 - 1,
-      });
+      mouseX.set((e.clientX / window.innerWidth) * 2 - 1);
+      mouseY.set((e.clientY / window.innerHeight) * 2 - 1);
     };
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isMobile, isTouch]);
+  }, [isMobile, isTouch, mouseX, mouseY]);
 
   const { scrollYProgress } = useScroll({
     target: scrollTargetRef,
     offset: ["start start", "end end"],
   });
+
+  // Smooth scroll progress using tuned spring physics to align narrative elements perfectly with ScrollyCanvas
+  const scrollSpringConfig = {
+    stiffness: isMobile ? 280 : 200,
+    damping: isMobile ? 50 : 38,
+    mass: isMobile ? 0.05 : 0.1,
+    restDelta: 0.0001
+  };
+  const smoothScrollProgress = useSpring(scrollYProgress, scrollSpringConfig);
 
   return (
     <motion.div
@@ -303,12 +315,12 @@ export default function Overlay({ scrollTargetRef }: OverlayProps) {
         <OverlaySection
           key={section.id}
           section={section}
-          scrollYProgress={scrollYProgress}
-          mouseX={mousePos.x}
-          mouseY={mousePos.y}
+          scrollYProgress={smoothScrollProgress}
+          mouseX={smoothMouseX}
+          mouseY={smoothMouseY}
         />
       ))}
-      <ScrollHint scrollYProgress={scrollYProgress} />
+      <ScrollHint scrollYProgress={smoothScrollProgress} />
     </motion.div>
   );
 }

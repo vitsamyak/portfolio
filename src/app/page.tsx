@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import ScrollySection from "@/components/ScrollySection";
-import CustomCursor from "@/components/CustomCursor";
 import Projects from "@/components/Projects";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
@@ -11,7 +10,6 @@ import CinematicGlowBackground from "@/components/CinematicGlowBackground";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-transparent text-white selection:bg-accent/30 selection:text-white">
-      <CustomCursor />
       <MagicBackground />
 
       <div className="relative z-10 bg-[#0a0a0a]">

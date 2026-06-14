@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, useSpring } from "framer-motion";
 import { useDevice } from "@/hooks/useDevice";
 import { drawCover } from "@/lib/canvas";
 import { FRAME_COUNT } from "@/lib/sequence";
@@ -23,6 +23,15 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
     target: containerRef,
     offset: ["start start", "end end"],
   });
+
+  // Tuned spring physics to feel directly connected, snappy, and latency-free
+  const springConfig = {
+    stiffness: isMobile ? 280 : 200,
+    damping: isMobile ? 50 : 38,
+    mass: isMobile ? 0.05 : 0.1,
+    restDelta: 0.0001
+  };
+  const smoothProgress = useSpring(scrollYProgress, springConfig);
 
   const renderFrame = useCallback((index: number) => {
     const canvas = canvasRef.current;
@@ -113,11 +122,11 @@ export default function ScrollyCanvas({ containerRef }: ScrollyCanvasProps) {
 
   const rafRef = useRef<number | null>(null);
 
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+  useMotionValueEvent(smoothProgress, "change", (progress) => {
     if (!ready) return;
     const index = Math.min(
       FRAME_COUNT - 1,
-      Math.floor(progress * (FRAME_COUNT - 1))
+      Math.max(0, Math.floor(progress * (FRAME_COUNT - 1)))
     );
 
     if (index !== frameIndexRef.current) {
