@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import ScrollySection from "@/components/ScrollySection";
 import Projects from "@/components/Projects";
+import Certifications from "@/components/Certifications";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -23,6 +24,7 @@ export default function Home() {
 
         <Header />
         <Projects />
+        <Certifications />
         <About />
         <Contact />
         <Footer />
