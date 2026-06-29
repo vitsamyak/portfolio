@@ -146,3 +146,44 @@ export const scrollNarrative = [
     parallax: 0.16,
   },
 ];
+
+export interface Certificate {
+  title: string;
+  issuer: string;
+  issueDate: string;
+  image: string;
+  pdf: string;
+  verificationLink: string;
+  skills: string[];
+}
+
+export const certificates: Certificate[] = [
+  {
+    title: "Introduction to Artificial Intelligence",
+    issuer: "Infosys Wingspan",
+    issueDate: "January 1, 2026",
+    image: "/certificate/1-308c096f-ccfe-4ce0-9817-14fe3f743eae.pdf.png",
+    pdf: "/certificate/1-308c096f-ccfe-4ce0-9817-14fe3f743eae.pdf",
+    verificationLink: "https://verify.onwingspan.com",
+    skills: ["Artificial Intelligence", "Machine Learning", "Neural Networks", "AI Concepts"],
+  },
+  {
+    title: "Introduction to Deep Learning",
+    issuer: "Infosys Wingspan",
+    issueDate: "January 5, 2026",
+    image: "/certificate/1-d67deac5-2619-4d1c-87ad-0bbde491b4cd.pdf.png",
+    pdf: "/certificate/1-d67deac5-2619-4d1c-87ad-0bbde491b4cd.pdf",
+    verificationLink: "https://verify.onwingspan.com",
+    skills: ["Deep Learning", "Neural Networks", "TensorFlow", "Model Architecture"],
+  },
+  {
+    title: "Introduction to Natural Language Processing",
+    issuer: "Infosys Wingspan",
+    issueDate: "January 5, 2026",
+    image: "/certificate/xr93TS-1-d31d9e8f-1a7d-4b91-a681-a04797334c13.pdf.png",
+    pdf: "/certificate/xr93TS-1-d31d9e8f-1a7d-4b91-a681-a04797334c13.pdf",
+    verificationLink: "https://verify.onwingspan.com",
+    skills: ["Natural Language Processing", "NLP", "Text Processing", "Language Models"],
+  },
+];
+

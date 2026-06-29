@@ -2,6 +2,7 @@
 
 import { useScroll, useMotionValueEvent, motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { profile } from "@/lib/portfolio";
 
@@ -9,13 +10,15 @@ import { useDevice } from "@/hooks/useDevice";
 
 export default function Header() {
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { isMobile, isLowPower } = useDevice();
 
   useMotionValueEvent(scrollY, "change", (y) => {
     if (typeof window !== "undefined") {
-      const threshold = window.innerHeight * 3.8;
+      const threshold = isHome ? window.innerHeight * 3.8 : 20;
       setScrolled(y > threshold);
     }
   });
@@ -29,10 +32,19 @@ export default function Header() {
     }
   }, [isOpen]);
 
+  // Set initial scroll state on page change/mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const threshold = isHome ? window.innerHeight * 3.8 : 20;
+      setScrolled(window.scrollY > threshold);
+    }
+  }, [isHome, pathname]);
+
   const navLinks = [
-    { name: "Work", href: "#work" },
-    { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" },
+    { name: "Work", href: isHome ? "#work" : "/#work" },
+    { name: "About", href: isHome ? "#about" : "/#about" },
+    { name: "Certifications", href: "/certifications" },
+    { name: "Contact", href: isHome ? "#contact" : "/#contact" },
   ];
 
   return (
@@ -49,7 +61,7 @@ export default function Header() {
         }`}
       >
         <a
-          href="#"
+          href={isHome ? "#" : "/"}
           className="relative z-[60] text-sm sm:text-base md:text-lg font-bold tracking-tight text-white drop-shadow-sm transition-all hover:opacity-80 md:relative absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0"
           onClick={() => setIsOpen(false)}
         >
@@ -58,16 +70,25 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="group relative text-sm font-medium text-white/50 transition-colors hover:text-white"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-transparent via-accent to-transparent transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`group relative text-sm font-medium transition-colors ${
+                  isActive ? "text-white" : "text-white/50 hover:text-white"
+                }`}
+              >
+                {link.name}
+                <span
+                  className={`absolute -bottom-1 left-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </a>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -113,23 +134,28 @@ export default function Header() {
             className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${isMobile ? "bg-[#0a0a0a]" : "bg-[#09090b]/98 backdrop-blur-2xl"}`}
           >
             <nav className="flex flex-col items-center gap-10">
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  initial={{ opacity: 0, y: isLowPower ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: isLowPower ? 0 : 0.1 + i * 0.1 }}
-                  onClick={() => setIsOpen(false)}
-                  className="text-3xl font-light tracking-[0.1em] text-white/60 transition-colors hover:text-white"
-                >
-                  {link.name}
-                </motion.a>
-              ))}
+              {navLinks.map((link, i) => {
+                const isActive = pathname === link.href;
+                return (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    initial={{ opacity: 0, y: isLowPower ? 0 : 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: isLowPower ? 0 : 0.1 + i * 0.1 }}
+                    onClick={() => setIsOpen(false)}
+                    className={`text-3xl font-light tracking-[0.1em] transition-colors ${
+                      isActive ? "text-white" : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {link.name}
+                  </motion.a>
+                );
+              })}
               <motion.div
                 initial={{ opacity: 0, y: isLowPower ? 0 : 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: isLowPower ? 0 : 0.4 }}
+                transition={{ delay: isLowPower ? 0 : 0.5 }}
               >
                 <Button
                   variant="primary"
@@ -148,3 +174,4 @@ export default function Header() {
     </header>
   );
 }
+

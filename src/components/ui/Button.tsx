@@ -10,6 +10,7 @@ type ButtonProps = HTMLMotionProps<"button"> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   href?: string;
+  download?: boolean | string;
 };
 
 const variants: Record<ButtonVariant, string> = {
@@ -28,7 +29,7 @@ const sizes: Record<ButtonSize, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = "primary", size = "md", className = "", href, children, ...props }, ref) => {
+  ({ variant = "primary", size = "md", className = "", href, download, children, ...props }, ref) => {
     const classes = `inline-flex items-center justify-center rounded-full font-medium transition-colors duration-300 ${variants[variant]} ${sizes[size]} ${className}`;
 
     if (href) {
@@ -36,6 +37,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <motion.a
           href={href}
+          download={download}
           target={isExternal && !href.startsWith("mailto:") ? "_blank" : undefined}
           rel={isExternal && !href.startsWith("mailto:") ? "noopener noreferrer" : undefined}
           whileHover={{ scale: 1.02 }}
@@ -47,6 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         </motion.a>
       );
     }
+
 
     return (
       <motion.button
